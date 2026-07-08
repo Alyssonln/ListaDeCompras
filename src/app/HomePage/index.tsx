@@ -1,6 +1,7 @@
 import { Image, Text, View } from "react-native";
 import { styles } from "./styles";
 import { InputArea } from "@/components/InputArea";
+import { ButtonAdd } from "@/components/ButtonAdd";
 
 export function HomePage() {
   return (
@@ -12,6 +13,10 @@ export function HomePage() {
         <InputArea 
           placeholder="O que você precisa comprar?"
           placeholderTextColor="#828282"
+        />
+        <ButtonAdd 
+          titulo="Adicionar" 
+          activeOpacity={0.7}
         />
       </View>
 

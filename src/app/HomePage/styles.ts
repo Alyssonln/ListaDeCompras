@@ -14,7 +14,8 @@ export const styles = StyleSheet.create({
   },
   inputArea: {
     width: '100%',
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
+    gap: 8
   },
   listArea:{},
 })
