@@ -17,5 +17,20 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     gap: 8
   },
-  listArea:{},
+  listArea:{
+    backgroundColor: '#ffffff',
+    width: '100%',
+    flex: 1,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+  },
+  statusArea: {
+    flexDirection: 'row',
+    gap: 16,
+    marginHorizontal: 24,
+    marginTop: 24,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E4E6EC'
+  }
 })
