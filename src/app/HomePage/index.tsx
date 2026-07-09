@@ -10,6 +10,12 @@ export function HomePage() {
 
   const STATUS_FILTER: StatusFilter[] = [StatusFilter.DONE, StatusFilter.PENDING]
 
+  const LISTA_EXEMPLO = [
+    {id: 1, status: StatusFilter.DONE, description: 'café'},
+    {id: 2, status: StatusFilter.PENDING, description: '3 Pacotes de macarrão'},
+    {id: 3, status: StatusFilter.PENDING, description: 'Pão francês'}
+  ]
+
   return (
     <View style={styles.container}>
       
@@ -46,11 +52,16 @@ export function HomePage() {
         </TouchableOpacity>
         </View>
 
-        <Item 
-          data={{ status: StatusFilter.DONE, description: 'Café' }}
-          onStatus={() => console.log('Mudar o status.')}
-          onRemove={() => console.log('Removido.')}
-        />
+        {
+          LISTA_EXEMPLO.map((item) => (
+            <Item 
+              data={{ status: item.status, description: item.description }}
+              onStatus={() => console.log('Mudar o status.')}
+              onRemove={() => console.log('Removido.')}
+              key={item.id}
+            />
+          ))
+        }
       </View>
 
     </View>
