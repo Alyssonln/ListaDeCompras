@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 import { InputArea } from "@/components/InputArea";
 import { ButtonAdd } from "@/components/ButtonAdd";
@@ -13,7 +13,16 @@ export function HomePage() {
   const LISTA_EXEMPLO = [
     {id: 1, status: StatusFilter.DONE, description: 'café'},
     {id: 2, status: StatusFilter.PENDING, description: '3 Pacotes de macarrão'},
-    {id: 3, status: StatusFilter.PENDING, description: 'Pão francês'}
+    {id: 3, status: StatusFilter.PENDING, description: 'Pão francês'},
+    {id: 4, status: StatusFilter.PENDING, description: 'Pão francês'},
+    {id: 5, status: StatusFilter.PENDING, description: 'Pão francês'},
+    {id: 6, status: StatusFilter.PENDING, description: 'Pão francês'},
+    {id: 7, status: StatusFilter.PENDING, description: 'Pão francês'},
+    {id: 8, status: StatusFilter.PENDING, description: 'Pão francês'},
+    {id: 9, status: StatusFilter.PENDING, description: 'Pão francês'},
+    {id: 10, status: StatusFilter.PENDING, description: 'Pão francês'},
+    {id: 11, status: StatusFilter.PENDING, description: 'Pão francês'},
+    {id: 12, status: StatusFilter.PENDING, description: 'Pão francês'},
   ]
 
   return (
@@ -52,16 +61,19 @@ export function HomePage() {
         </TouchableOpacity>
         </View>
 
-        {
-          LISTA_EXEMPLO.map((item) => (
+        <FlatList 
+          data={LISTA_EXEMPLO}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => 
             <Item 
-              data={{ status: item.status, description: item.description }}
-              onStatus={() => console.log('Mudar o status.')}
+              data={item}
+              onStatus={() => console.log('O status mudou.')}
               onRemove={() => console.log('Removido.')}
-              key={item.id}
             />
-          ))
-        }
+          }
+          ListEmptyComponent={() => <Text style={styles.empty}>Nenhum item aqui.</Text>}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
 
     </View>

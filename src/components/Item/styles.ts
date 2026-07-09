@@ -5,8 +5,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    paddingHorizontal: 24,
-    marginTop: 12
+    marginTop: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E4E6EC',
+    marginHorizontal: 24,
+    paddingBottom: 16
   },
   description: {
     flex: 1,

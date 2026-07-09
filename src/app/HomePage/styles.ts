@@ -23,16 +23,17 @@ export const styles = StyleSheet.create({
     flex: 1,
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
+    paddingBottom: 62
   },
   statusArea: {
     flexDirection: 'row',
     gap: 16,
     marginHorizontal: 24,
     marginTop: 24,
-    paddingBottom: 12,
+    paddingBottom: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#E4E6EC',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   btnLimpar: {
     marginLeft: 'auto',
@@ -40,6 +41,12 @@ export const styles = StyleSheet.create({
   textLimpar: {
     fontSize: 12,
     fontWeight: 600,
+    color: '#828282'
+  },
+  empty: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 8,
     color: '#828282'
   }
 })
