@@ -1,9 +1,10 @@
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 import { InputArea } from "@/components/InputArea";
 import { ButtonAdd } from "@/components/ButtonAdd";
-import { FilterStatus } from "@/components/FilterArea";
+import { FilterStatus } from "@/components/FilterStatus";
 import { StatusFilter } from "@/types/StatusFilter";
+import { Item } from "@/components/Item";
 
 export function HomePage() {
 
@@ -13,6 +14,8 @@ export function HomePage() {
     <View style={styles.container}>
       
       <Image source={require('@/assets/logo.png')} style={styles.imgLogo} />
+
+      
 
       <View style={styles.inputArea}>
         <InputArea 
@@ -36,9 +39,21 @@ export function HomePage() {
             />
           ))
         }
+        <TouchableOpacity style={styles.btnLimpar} activeOpacity={0.7}>
+          <Text style={styles.textLimpar}>
+            Limpar
+          </Text>
+        </TouchableOpacity>
         </View>
+
+        <Item 
+          data={{ status: StatusFilter.DONE, description: 'Café' }}
+          onStatus={() => console.log('Mudar o status.')}
+          onRemove={() => console.log('Removido.')}
+        />
       </View>
 
     </View>
   )
 }
+

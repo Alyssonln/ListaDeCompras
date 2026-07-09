@@ -29,8 +29,17 @@ export const styles = StyleSheet.create({
     gap: 16,
     marginHorizontal: 24,
     marginTop: 24,
-    paddingBottom: 8,
+    paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#E4E6EC'
+    borderBottomColor: '#E4E6EC',
+    alignItems: 'center'
+  },
+  btnLimpar: {
+    marginLeft: 'auto',
+  },
+  textLimpar: {
+    fontSize: 12,
+    fontWeight: 600,
+    color: '#828282'
   }
 })
