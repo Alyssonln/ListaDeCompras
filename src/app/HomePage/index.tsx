@@ -1,4 +1,4 @@
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 import { InputArea } from "@/components/InputArea";
 import { ButtonAdd } from "@/components/ButtonAdd";
@@ -9,15 +9,23 @@ import { useState } from "react";
 
   const STATUS_FILTER: StatusFilter[] = [StatusFilter.PENDING, StatusFilter.DONE]
 
-  const LISTA_EXEMPLO = [
-    {id: 1, status: StatusFilter.DONE, description: 'café'},
-    {id: 2, status: StatusFilter.PENDING, description: '3 Pacotes de macarrão'},
-    {id: 3, status: StatusFilter.PENDING, description: 'Pão francês'},
-  ]
-
 export function HomePage() {
 
-  const [filter, setFilter] = useState<StatusFilter>(StatusFilter.PENDING)
+  const [filter, setFilter] = useState(StatusFilter.PENDING)
+  const [description, setDescription] = useState("")
+  const [item, setItem] = useState<any>([])
+
+  function handleAdd() {
+    if(!description.trim()) {
+      return Alert.alert("Adicionar", "Informe a descrição para adicionar.")
+    }
+
+    const newItem = {
+      id: Date.now(), 
+      description, 
+      status: StatusFilter.PENDING
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -28,10 +36,12 @@ export function HomePage() {
         <InputArea 
           placeholder="O que você precisa comprar?"
           placeholderTextColor="#828282"
+          onChangeText={setDescription}
         />
         <ButtonAdd 
           titulo="Adicionar" 
           activeOpacity={0.7}
+          onPress={() => handleAdd()}
         />
       </View>
 
@@ -55,7 +65,7 @@ export function HomePage() {
         </View>
 
         <FlatList 
-          data={LISTA_EXEMPLO}
+          data={item}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => 
             <Item 
