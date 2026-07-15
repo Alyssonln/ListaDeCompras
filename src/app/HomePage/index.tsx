@@ -5,7 +5,8 @@ import { ButtonAdd } from "@/components/ButtonAdd";
 import { FilterStatus } from "@/components/FilterStatus";
 import { StatusFilter } from "@/types/StatusFilter";
 import { Item } from "@/components/Item";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ItemsStorage, itemStorage } from "@/storage/itemsStorage"
 
   const STATUS_FILTER: StatusFilter[] = [StatusFilter.PENDING, StatusFilter.DONE]
 
@@ -13,7 +14,7 @@ export function HomePage() {
 
   const [filter, setFilter] = useState(StatusFilter.PENDING)
   const [description, setDescription] = useState("")
-  const [item, setItem] = useState<any>([])
+  const [item, setItem] = useState<ItemsStorage[]>([])
 
   function handleAdd() {
     if(!description.trim()) {
@@ -26,6 +27,20 @@ export function HomePage() {
       status: StatusFilter.PENDING
     }
   }
+
+  async function getItems() {
+    try {
+      const response = await itemStorage.get()
+      setItem(response)
+    } catch (error) {
+      console.log(error)
+      Alert.alert("Erro", "Não foi possivel filtrar os itens.")
+    }
+  }
+
+  useEffect( () => {
+    getItems()
+  }, [])
 
   return (
     <View style={styles.container}>
