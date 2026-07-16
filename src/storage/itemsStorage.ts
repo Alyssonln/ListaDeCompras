@@ -14,7 +14,7 @@ async function get(): Promise<ItemsStorage[]> {
     const storage = await AsyncStorage.getItem(ITEMS_STORAGE_KEY)
     return storage ? JSON.parse(storage) : []
   } catch (error) {
-    throw new Error("GET_ITEMS: " + error)
+    throw new Error("ITEMS_GET: " + error)
   }
 }
 
@@ -23,7 +23,40 @@ async function getByStatus(status: StatusFilter): Promise<ItemsStorage[]> {
   return items.filter(item => item.status === status)
 }
 
+async function save(items: ItemsStorage[]): Promise<void> {
+  try {
+    await AsyncStorage.setItem(ITEMS_STORAGE_KEY, JSON.stringify(items))
+  } catch (error) {
+    throw new Error("ITEMS_SAVE: " + error)
+  }
+}
+
+async function add(newItem: ItemsStorage): Promise<ItemsStorage[]> {
+  const items = await get()
+  const updateItems = [...items, newItem]
+  await save(updateItems)
+
+  return updateItems
+}
+
+async function remove(id: string): Promise<void> {
+  const items = await get()
+  const updateItems = items.filter(item => item.id !== id)
+  await save(updateItems)
+}
+
+async function clear(): Promise<void> {
+  try {
+    await AsyncStorage.removeItem(ITEMS_STORAGE_KEY)
+  } catch (error) {
+    throw new Error("ITEMS_CLEAR: " + error)
+  }
+}
+
 export const itemStorage = {
   get,
   getByStatus,
+  add,
+  remove,
+  clear
 }

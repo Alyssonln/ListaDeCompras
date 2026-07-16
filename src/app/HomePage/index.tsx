@@ -16,21 +16,28 @@ export function HomePage() {
   const [description, setDescription] = useState("")
   const [item, setItem] = useState<ItemsStorage[]>([])
 
-  function handleAdd() {
+  async function handleAdd() {
     if(!description.trim()) {
       return Alert.alert("Adicionar", "Informe a descrição para adicionar.")
     }
 
     const newItem = {
-      id: Date.now(), 
+      id: Date.now().toString(), 
       description, 
       status: StatusFilter.PENDING
     }
+
+    await itemStorage.add(newItem)
+    await itemsByStatus()
+
+    Alert.alert("Adicionado", `Adicionado ${description}`)
+    setFilter(StatusFilter.PENDING)
+    setDescription("")
   }
 
-  async function getItems() {
+  async function itemsByStatus() {
     try {
-      const response = await itemStorage.get()
+      const response = await itemStorage.getByStatus(filter)
       setItem(response)
     } catch (error) {
       console.log(error)
@@ -38,9 +45,36 @@ export function HomePage() {
     }
   }
 
+  async function handleRemove(id: string) {
+    try {
+      await itemStorage.remove(id)
+      await itemsByStatus()
+    } catch (error) {
+      console.log(error)
+      Alert.alert("Remover", "Não foi possivel remover.")
+    }
+  }
+
+  function handleClear() {
+    Alert.alert("Limpar", "Deseja remover todos?", [
+      { text: "Não", style: "cancel" },
+      { text: "Sim", onPress: () => onCLear() }
+    ])
+  }
+
+  async function onCLear() {
+    try {
+      await itemStorage.clear()
+      setItem([])
+    } catch (error) {
+      console.log(error)
+      Alert.alert("Erro", "Não foi possível remover os items.")
+    }
+  }
+
   useEffect( () => {
-    getItems()
-  }, [])
+    itemsByStatus()
+  }, [filter])
 
   return (
     <View style={styles.container}>
@@ -52,6 +86,7 @@ export function HomePage() {
           placeholder="O que você precisa comprar?"
           placeholderTextColor="#828282"
           onChangeText={setDescription}
+          value={description}
         />
         <ButtonAdd 
           titulo="Adicionar" 
@@ -72,7 +107,7 @@ export function HomePage() {
             />
           ))
         }
-        <TouchableOpacity style={styles.btnLimpar} activeOpacity={0.7}>
+        <TouchableOpacity style={styles.btnLimpar} activeOpacity={0.7} onPress={handleClear}>
           <Text style={styles.textLimpar}>
             Limpar
           </Text>
@@ -86,7 +121,7 @@ export function HomePage() {
             <Item 
               data={item}
               onStatus={() => console.log('O status mudou.')}
-              onRemove={() => console.log('Removido.')}
+              onRemove={() => handleRemove(item.id)}
             />
           }
           ListEmptyComponent={() => <Text style={styles.empty}>Nenhum item aqui.</Text>}
